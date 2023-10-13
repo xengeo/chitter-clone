@@ -20,6 +20,13 @@ I want to see the time at which it was made
 As a Maker
 So that I can post messages on Chitter as me
 I want to sign up for Chitter
+
+Additional Notes
+- You don't have to be logged in to see the peeps.
+- Users sign up to chitter with their email, password, name and a username (e.g. samm@makersacademy.com, password123, Sam Morgan, sjmog).
+- The username and email are unique.
+- Peeps (posts to chitter) have the name of the user and their user handle.
+- Your README should indicate the technologies used, and give instructions on how to install and run the tests.
 ```
 
 ```
@@ -53,11 +60,11 @@ Put the different nouns in this table. Replace the example with your own nouns.
 
 1. Name of the first table (always plural): `posts` 
 
-    Column names: `title`, `content`
+    Column names: `message`, `time`, `user_id`, `username`
 
-2. Name of the second table (always plural): `comments` 
+2. Name of the second table (always plural): `Users` 
 
-    Column names: `contents`, `author`
+    Column names: `email`, `password`, `name`, `username`
 
 ## 3. Decide the column types
 
@@ -72,13 +79,17 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 
 Table: posts
 id: SERIAL
-title: text
-content: text
+message: text
+time: date
+username: text
+user_id: int
 
-Table: comments
+Table: users
 id: SERIAL
-contents: text
-author: text
+email: text
+password: text
+name: text
+username: text
 ```
 
 ## 4. Decide on The Tables Relationship
@@ -122,21 +133,24 @@ Replace the relevant bits in this example with your own:
 -- Replace the table name, columm names and types.
 
 -- Create the table without the foreign key first.
-CREATE TABLE posts (
+CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  title text,
-  conetent text
+  email text,
+  password: text,
+  name text,
+  username text
 );
 
 -- Then the table with the foreign key second.
-CREATE TABLE comments (
+CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
-  contents text,
-  author text,
+  message text,
+  time datetime,
 -- The foreign key name is always {other_table_singular}_id
-  post_id int,
-  constraint fk_post foreign key(post_id)
-    references posts(id)
+  username text,
+  user_id integer,
+  constraint fk_users foreign key(user_id)
+    references users(id)
     on delete cascade
 );
 
